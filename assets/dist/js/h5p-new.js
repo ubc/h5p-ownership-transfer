@@ -177,7 +177,6 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
       body: formData
     });
     response = await response.json();
-    console.log(response);
     setValid(response.valid);
     setStatus(response.status);
     setMessage(response.message ? response.message : '');
