@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./assets/src/css/h5p-new.scss"],"names":[],"mappings":"AAAA;EAEI,UAAU;;AAFd;EAMI,YAAY","file":"../css/h5p-new.css","sourcesContent":[".postbox.h5p-sidebar{\n  p span.invalid{\n    color: red;\n  }\n\n  p span.valid{\n    color: green;\n  }\n}"],"sourceRoot":""}
