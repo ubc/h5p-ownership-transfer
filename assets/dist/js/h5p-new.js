@@ -149,8 +149,9 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
 
 /* harmony default export */ __webpack_exports__["default"] = (() => {
   const [newOwnerEmail, setNewOwnerEmail] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const [status, setStatus] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
-  const [errorMessage, setErrorMessage] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [valid, setValid] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
+  const [status, setStatus] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [Message, setMessage] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [inputValue, setIputValue] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
     if (true === status) {
@@ -160,10 +161,10 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     }
   }, [status]);
 
-  const validateNewOwnerEmail = async () => {
+  const transferOwnership = async () => {
     let formData = new FormData();
     const params = new URLSearchParams(window.location.search);
-    formData.append('action', 'ubc_h5p_verify_new_owner');
+    formData.append('action', 'ubc_h5p_ownership_transfer');
     formData.append('nonce', ubc_h5p_ownership_transfer_admin.security_nonce);
     formData.append('email', newOwnerEmail);
 
@@ -176,8 +177,10 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
       body: formData
     });
     response = await response.json();
-    setStatus(response.valid);
-    setErrorMessage(response.error_message ? response.error_message : '');
+    console.log(response);
+    setValid(response.valid);
+    setStatus(response.status);
+    setMessage(response.message ? response.message : '');
   };
 
   const validateEmail = email => {
@@ -188,7 +191,7 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 49,
+      lineNumber: 52,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -200,14 +203,14 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50,
+      lineNumber: 53,
       columnNumber: 13
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 51,
+      lineNumber: 54,
       columnNumber: 13
     }
   }, "Ownership Transfer"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -215,7 +218,7 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52,
+      lineNumber: 55,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -227,7 +230,7 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53,
+      lineNumber: 56,
       columnNumber: 13
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -237,7 +240,7 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 60,
+      lineNumber: 63,
       columnNumber: 13
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -249,56 +252,59 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
         return;
       }
 
-      validateNewOwnerEmail();
+      transferOwnership();
     },
     className: "button",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 65,
+      lineNumber: 68,
       columnNumber: 13
     }
-  }, "Validate"), null !== status ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, "Transfer"), null !== valid ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "howto",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78,
-      columnNumber: 33
+      lineNumber: 81,
+      columnNumber: 32
     }
   }, "Status: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: `${status ? 'valid' : 'invalid'}`,
+    className: `${valid ? 'valid' : 'invalid'}`,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78,
-      columnNumber: 62
+      lineNumber: 81,
+      columnNumber: 61
     }
-  }, status ? 'Valid' : 'Invalid')) : null, '' !== errorMessage ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, status)) : null, null !== valid && '' !== Message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "howto",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 79,
-      columnNumber: 37
+      lineNumber: 82,
+      columnNumber: 50
     }
-  }, "Error Message: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "invalid",
+  }, "Message: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: `${valid ? 'valid' : 'invalid'}`,
+    dangerouslySetInnerHTML: {
+      __html: Message
+    },
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 79,
-      columnNumber: 73
+      lineNumber: 82,
+      columnNumber: 80
     }
-  }, errorMessage)) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  })) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "howto",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 80,
+      lineNumber: 83,
       columnNumber: 13
     }
-  }, "Please type in the email address associated with the user's account on current platform. Validate the email address by clicking the button above to make sure the ownership will be transfered successfully.")));
+  }, "Enter the email address associated with a user on this platform. Pressing 'Transfer' will make that person the owner of this piece of H5P content.")));
 });
 
 /***/ }),

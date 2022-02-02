@@ -1,9 +1,10 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 export default () => {
     const [newOwnerEmail, setNewOwnerEmail] = useState('');
-    const [status, setStatus] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [valid, setValid] = useState(null);
+    const [status, setStatus] = useState('');
+    const [Message, setMessage] = useState('');
     const [inputValue, setIputValue] = useState('');
 
     useEffect( () => {
@@ -14,12 +15,12 @@ export default () => {
         }
     }, [status])
 
-    const validateNewOwnerEmail = async () => {
+    const transferOwnership = async () => {
         let formData = new FormData();
 
         const params = new URLSearchParams(window.location.search)
 
-        formData.append( 'action', 'ubc_h5p_verify_new_owner' );
+        formData.append( 'action', 'ubc_h5p_ownership_transfer' );
         formData.append( 'nonce', ubc_h5p_ownership_transfer_admin.security_nonce );
         formData.append( 'email', newOwnerEmail );
 
@@ -33,8 +34,10 @@ export default () => {
             body: formData
         })
         response = await response.json();
-        setStatus( response.valid );
-        setErrorMessage( response.error_message ? response.error_message : '' );
+        console.log(response);
+        setValid( response.valid );
+        setStatus( response.status );
+        setMessage( response.message ? response.message : '' );
     }
 
     const validateEmail = ( email ) => {
@@ -69,15 +72,15 @@ export default () => {
                         alert( 'Email provided is not valid.' );
                         return;
                     }
-                    validateNewOwnerEmail();
+                    transferOwnership();
                 } }
                 className="button"
             >
-                Validate
+                Transfer
             </button>
-            { null !== status ? <p className='howto'>Status: <span className={`${ status ? 'valid' : 'invalid' }`}>{ status ? 'Valid': 'Invalid' }</span></p> : null }
-            { '' !== errorMessage ? <p className='howto'>Error Message: <span className='invalid'>{ errorMessage }</span></p> : null }
-            <p className="howto">Please type in the email address associated with the user's account on current platform. Validate the email address by clicking the button above to make sure the ownership will be transfered successfully.</p>
+            { null !== valid ? <p className='howto'>Status: <span className={`${ valid ? 'valid' : 'invalid' }`}>{ status  }</span></p> : null }
+            { null !== valid && '' !== Message ? <p className='howto'>Message: <span className={`${ valid ? 'valid' : 'invalid' }`} dangerouslySetInnerHTML={{__html: Message}}></span></p> : null }
+            <p className="howto">Enter the email address associated with a user on this platform. Pressing 'Transfer' will make that person the owner of this piece of H5P content.</p>
             </div>
         </Fragment>
     );

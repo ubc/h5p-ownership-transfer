@@ -20,30 +20,8 @@ class ContentOwnershipTransfer {
 	 */
 	public function __construct() {
 		add_action( 'load-h5p-content_page_h5p_new', array( $this, 'enqueue_add_new_content_script' ), 10 );
-		add_filter( 'wp_redirect', array( $this, 'h5p_content_ownership_transfer_actions' ) );
-		add_action( 'wp_ajax_ubc_h5p_verify_new_owner', array( $this, 'verify_new_owner' ) );
+		add_action( 'wp_ajax_ubc_h5p_ownership_transfer', array( $this, 'verify_new_owner' ) );
 	}
-
-	/**
-	 * Callback to save taxonomy information after H5P content is created. Delete taxonomy rows when content is deleted.
-	 * Not ideal to use wp_redirect filter since WordPress filter is suppose to change stuff not add stuff.
-	 * However, due to cusotmization limitation from H5P plugin, this is currently the only way to make it work.
-	 *
-	 * @param string $location the URL to redirect user to.
-	 * @return string the URL to redirect user to.
-	 */
-	public function h5p_content_ownership_transfer_actions( $location ) {
-		$url_components = wp_parse_url( $location );
-		parse_str( $url_components['query'], $params );
-
-		// Save taxonomies when creating new h5p content.
-		if ( isset( $_GET['page'] ) && 'h5p_new' === $_GET['page'] && isset( $params['id'] ) && isset( $_REQUEST['h5p-content-new-author-email'] ) ) {
-			// phpcs:ignore
-			ContentOwnershipTransferDB::update_content_author( intval( $params['id'] ), $_REQUEST['h5p-content-new-author-email'] );
-		}
-
-		return $location;
-	}//end h5p_content_ownership_transfer_actions()
 
 	/**
 	 * Load assets for h5p new content page.
@@ -94,8 +72,9 @@ class ContentOwnershipTransfer {
 		if ( empty( $content_id ) ) {
 			wp_send_json(
 				array(
-					'valid'         => false,
-					'error_message' => 'System error, please contact platform administrator.',
+					'valid'   => false,
+					'status'  => 'System Error.',
+					'message' => 'System error, please contact platform administrator.',
 				)
 			);
 		}
@@ -103,8 +82,9 @@ class ContentOwnershipTransfer {
 		if ( empty( $email ) ) {
 			wp_send_json(
 				array(
-					'valid'         => false,
-					'error_message' => 'Email address is empty.',
+					'valid'   => false,
+					'status'  => 'Empty email address',
+					'message' => 'The email address you have provided is empty. Please enter a valid email address to continue.',
 				)
 			);
 		}
@@ -112,8 +92,9 @@ class ContentOwnershipTransfer {
 		if ( false === get_user_by( 'email', $email ) ) {
 			wp_send_json(
 				array(
-					'valid'         => false,
-					'error_message' => 'User email does not exist.',
+					'valid'   => false,
+					'status'  => 'Invalid email address.',
+					'message' => 'The email address you have entered is not attached to a user on this platform. Please ask the person to whom you are transferring this h5p content for the email address attached to their account. They can find that by visiting their <a href="' . get_edit_profile_url() . '">user profile</a>',
 				)
 			);
 		}
@@ -123,15 +104,20 @@ class ContentOwnershipTransfer {
 		if ( $email === $content_author_email ) {
 			wp_send_json(
 				array(
-					'valid'         => false,
-					'error_message' => 'The author of the current h5p content is the same as the target user.',
+					'valid'   => false,
+					'status'  => 'Duplicate author.',
+					'message' => $email . ' is already the author of current h5p content.',
 				)
 			);
 		}
 
+		ContentOwnershipTransferDB::update_content_author( $content_id, $email );
+
 		wp_send_json(
 			array(
-				'valid' => true,
+				'valid'   => true,
+				'status'  => 'Success',
+				'message' => 'Ownership transferred successfully to ' . $email,
 			)
 		);
 	}//end verify_new_owner()
