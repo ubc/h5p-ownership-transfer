@@ -11,7 +11,7 @@
  * Plugin Name: UBC H5P Addon - Content Ownership Transfer
  * Plugin URI:  https://ubc.ca/
  * Description: Allowed users with certain capability to transfer the ownership of h5p content to another user.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      Kelvin Xu
  * Text Domain: ubc-h5p-ownership-transfer
  * License:     GPL v2 or later
