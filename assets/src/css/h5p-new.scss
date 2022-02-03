@@ -1,9 +1,28 @@
-.postbox.h5p-sidebar{
-  p span.invalid{
-    color: #B32D2E;
+.h5p-notice{
+  margin: 15px 0;
+  padding-right: 38px;
+  position: relative;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-left-width: 4px;
+  padding: 1px 12px;
+  
+  &.valid{
+    border-left-color: #00a32a;
   }
 
-  p span.valid{
-    color: #00A32A;
+  &.invalid{
+    border-left-color: #B32D2E;
   }
+
+  p{
+    margin: 0.5em 0 !important;
+    padding: 2px;
+    padding-right: 20px;
+  }
+}
+
+.h5p-current-author{
+  color: #1d2327;
+  font-weight: 600;
 }

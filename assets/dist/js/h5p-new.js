@@ -150,20 +150,14 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
 /* harmony default export */ __webpack_exports__["default"] = (() => {
   const [newOwnerEmail, setNewOwnerEmail] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [valid, setValid] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
-  const [status, setStatus] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const [Message, setMessage] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const [inputValue, setIputValue] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [message, setMessage] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [currentAuthorEmail, setCurrentAuthorEmail] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    if (true === status) {
-      setIputValue(newOwnerEmail);
-    } else {
-      setIputValue('');
-    }
-  }, [status]);
+    getCurrentContentAuthorEmail();
+  });
 
   const clearMessage = () => {
     setValid(null);
-    setStatus('');
     setMessage('');
   };
 
@@ -174,25 +168,48 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     formData.append('nonce', ubc_h5p_ownership_transfer_admin.security_nonce);
     formData.append('email', newOwnerEmail);
 
-    if (params.has('id')) {
-      formData.append('content_id', params.get('id'));
+    if (!params.has('id')) {
+      return;
     }
 
+    formData.append('content_id', params.get('id'));
     let response = await fetch(ajaxurl, {
       method: 'POST',
       body: formData
     });
     response = await response.json();
     setValid(response.valid);
-    setStatus(response.status);
     setMessage(response.message ? response.message : '');
+    getCurrentContentAuthorEmail();
+  };
+
+  const getCurrentContentAuthorEmail = async () => {
+    let formData = new FormData();
+    const params = new URLSearchParams(window.location.search);
+
+    if (!params.has('id')) {
+      return;
+    }
+
+    formData.append('action', 'ubc_h5p_get_content_author_email');
+    formData.append('content_id', params.get('id'));
+    formData.append('nonce', ubc_h5p_ownership_transfer_admin.security_nonce);
+    let response = await fetch(ajaxurl, {
+      method: 'POST',
+      body: formData
+    });
+    response = await response.json();
+
+    if (response.success) {
+      setCurrentAuthorEmail(response.data);
+    }
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50,
+      lineNumber: 69,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -204,22 +221,22 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 51,
+      lineNumber: 70,
       columnNumber: 13
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52,
+      lineNumber: 71,
       columnNumber: 13
     }
-  }, "Ownership Transfer"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Content Author Transfer"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "h5p-panel",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53,
+      lineNumber: 72,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -227,11 +244,10 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
       e.preventDefault();
       transferOwnership();
     },
-    onvali: true,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 54,
+      lineNumber: 73,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -244,17 +260,7 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 61,
-      columnNumber: 13
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    name: "h5p-content-new-author-email",
-    hidden: true,
-    value: inputValue,
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 69,
+      lineNumber: 79,
       columnNumber: 13
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -266,53 +272,55 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 74,
+      lineNumber: 87,
       columnNumber: 13
     }
-  }, "Transfer")), null !== valid ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "howto",
+  }, "Transfer")), '' !== message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: `${valid ? 'valid' : 'invalid'} h5p-notice`,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 84,
+      lineNumber: 97,
       columnNumber: 32
     }
-  }, "Status: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: `${valid ? 'valid' : 'invalid'}`,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 84,
-      columnNumber: 61
+      lineNumber: 98,
+      columnNumber: 17
     }
-  }, status)) : null, null !== valid && '' !== Message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 98,
+      columnNumber: 20
+    }
+  }, message))) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "howto",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 85,
-      columnNumber: 50
-    }
-  }, "Message: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: `${valid ? 'valid' : 'invalid'}`,
-    dangerouslySetInnerHTML: {
-      __html: Message
-    },
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 85,
-      columnNumber: 80
-    }
-  })) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "howto",
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 86,
+      lineNumber: 100,
       columnNumber: 13
     }
-  }, "Enter the email address associated with a user on this platform. Pressing 'Transfer' will make that person the owner of this piece of H5P content.")));
+  }, "Enter the email address associated with a user on this platform. Pressing 'Transfer' will make that person the author of this piece of H5P content."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "howto h5p-current-author",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 101,
+      columnNumber: 13
+    }
+  }, "Current Author:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 101,
+      columnNumber: 68
+    }
+  }), currentAuthorEmail)));
 });
 
 /***/ }),

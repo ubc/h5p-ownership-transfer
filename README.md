@@ -1,4 +1,4 @@
-# H5P Addon - Ownership Transfer
+# H5P Addon - Content Author Transfer
 **this add-on adds extra functionality on top of H5P WordPress plugin. Please make sure the H5P plugin is installed and activated.*
 
 The plugin allows users with certain capabilities to transfer the ownership of a h5p content to another user. 

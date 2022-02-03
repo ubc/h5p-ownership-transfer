@@ -21,6 +21,7 @@ class ContentOwnershipTransfer {
 	public function __construct() {
 		add_action( 'load-h5p-content_page_h5p_new', array( $this, 'enqueue_add_new_content_script' ), 10 );
 		add_action( 'wp_ajax_ubc_h5p_ownership_transfer', array( $this, 'verify_new_owner' ) );
+		add_action( 'wp_ajax_ubc_h5p_get_content_author_email', array( $this, 'get_content_author_email' ) );
 	}
 
 	/**
@@ -59,6 +60,25 @@ class ContentOwnershipTransfer {
 	}//end enqueue_add_new_content_script()
 
 	/**
+	 * Get the author email of h5p content based on content ID.
+	 *
+	 * @return void
+	 */
+	public function get_content_author_email() {
+		check_ajax_referer( 'security', 'nonce' );
+
+		$content_id = isset( $_POST['content_id'] ) ? intval( $_POST['content_id'] ) : null;
+
+		$content_author_email = ContentOwnershipTransferDB::get_content_author_email( $content_id );
+
+		if ( false === $content_author_email ) {
+			wp_send_json_error();
+		} else {
+			wp_send_json_success( $content_author_email );
+		}
+	}
+
+	/**
 	 * Ajax handler to verify if the email address of the new owner is valid.
 	 *
 	 * @return void
@@ -73,7 +93,6 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'status'  => 'System Error.',
 					'message' => 'System error, please contact platform administrator.',
 				)
 			);
@@ -83,7 +102,6 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'status'  => 'Empty email address',
 					'message' => 'The email address you have provided is empty. Please enter a valid email address to continue.',
 				)
 			);
@@ -93,8 +111,7 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'status'  => 'Invalid email address.',
-					'message' => 'The email address you have entered is not attached to a user on this platform. Please ask the person to whom you are transferring this h5p content for the email address attached to their account. They can find that by visiting their <a href="' . get_edit_profile_url() . '">user profile</a>',
+					'message' => $email . 'is not attached to a user on this platform. No changes made.',
 				)
 			);
 		}
@@ -105,8 +122,7 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'status'  => 'Duplicate author.',
-					'message' => $email . ' is already the author of current h5p content.',
+					'message' => $email . ' is already the author of this H5P content. No changes made.',
 				)
 			);
 		}
@@ -116,8 +132,7 @@ class ContentOwnershipTransfer {
 		wp_send_json(
 			array(
 				'valid'   => true,
-				'status'  => 'Success',
-				'message' => 'Ownership transferred successfully to ' . $email,
+				'message' => $email . ' is now the author of this H5P content.',
 			)
 		);
 	}//end verify_new_owner()
