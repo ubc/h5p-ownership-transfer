@@ -234,7 +234,7 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
       lineNumber: 76,
       columnNumber: 13
     }
-  }, "Content Author Transfer"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, ubc_h5p_ownership_transfer_translations.metabox_title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "h5p-panel",
     __self: undefined,
     __source: {
@@ -279,7 +279,7 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
       lineNumber: 92,
       columnNumber: 13
     }
-  }, "Transfer")), '' !== message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, ubc_h5p_ownership_transfer_translations.transfer_button_label)), '' !== message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: `${valid ? 'valid' : 'invalid'} h5p-notice`,
     __self: undefined,
     __source: {
@@ -309,7 +309,7 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
       lineNumber: 106,
       columnNumber: 13
     }
-  }, "Enter the email address associated with a user on this platform. Pressing 'Transfer' will make that person the author of this piece of H5P content."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, ubc_h5p_ownership_transfer_translations.transfer_helper_message), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "howto h5p-current-author",
     __self: undefined,
     __source: {
@@ -317,12 +317,12 @@ var _jsxFileName = "/Users/kelvin/Local Sites/multisite/app/public/wp-content/pl
       lineNumber: 107,
       columnNumber: 13
     }
-  }, "Current Author:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", {
+  }, ubc_h5p_ownership_transfer_translations.current_author_label, ":", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 107,
-      columnNumber: 68
+      columnNumber: 118
     }
   }), currentAuthorEmail)));
 });

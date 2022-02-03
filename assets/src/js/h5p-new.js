@@ -73,7 +73,7 @@ export default () => {
     return (
         <Fragment>
             <div role="button" className="h5p-toggle" tabIndex="0" aria-expanded="true" aria-label="Toggle panel"></div>
-            <h2>Content Author Transfer</h2>
+            <h2>{ ubc_h5p_ownership_transfer_translations.metabox_title }</h2>
             <div className="h5p-panel">
             <form
                 onSubmit={ e => {
@@ -97,14 +97,14 @@ export default () => {
                     clearMessage();
                 }}
             >
-                Transfer
+                { ubc_h5p_ownership_transfer_translations.transfer_button_label }
             </button>
             </form>
             { '' !== message ? <div className={`${ valid ? 'valid' : 'invalid' } h5p-notice`}> 
                 <p><strong>{ message }</strong></p>
             </div> : null }
-            <p className="howto">Enter the email address associated with a user on this platform. Pressing 'Transfer' will make that person the author of this piece of H5P content.</p>
-            <p className="howto h5p-current-author">Current Author:<br />{ currentAuthorEmail }</p>
+            <p className="howto">{ ubc_h5p_ownership_transfer_translations.transfer_helper_message }</p>
+            <p className="howto h5p-current-author">{ ubc_h5p_ownership_transfer_translations.current_author_label }:<br />{ currentAuthorEmail }</p>
             </div>
         </Fragment>
     );

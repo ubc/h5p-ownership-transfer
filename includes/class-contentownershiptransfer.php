@@ -50,6 +50,17 @@ class ContentOwnershipTransfer {
 			)
 		);
 
+		wp_localize_script(
+			'ubc-h5p-ownership-transer-js',
+			'ubc_h5p_ownership_transfer_translations',
+			array(
+				'transfer_helper_message' => __( "Enter the email address associated with a user on this platform. Pressing 'Transfer' will make that person the author of this piece of H5P content.", 'ubc-h5p-addon-content-ownership-transfer' ),
+				'current_author_label'    => __( 'Current Author', 'ubc-h5p-addon-content-ownership-transfer' ),
+				'transfer_button_label'   => __( 'Transfer', 'ubc-h5p-addon-content-ownership-transfer' ),
+				'metabox_title'           => __( 'Content Author Transfer', 'ubc-h5p-addon-content-ownership-transfer' ),
+			)
+		);
+
 		wp_register_style(
 			'ubc-h5p-ownership-transfer-css',
 			H5P_OWNERSHIP_TRANSFER_PLUGIN_URL . '/assets/dist/css/h5p-new.css',
@@ -93,7 +104,7 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'message' => 'System error, please contact platform administrator.',
+					'message' => __( 'System error, please contact platform administrator.', 'ubc-h5p-addon-content-ownership-transfer' ),
 				)
 			);
 		}
@@ -102,7 +113,7 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'message' => 'The email address you have provided is empty. Please enter a valid email address to continue.',
+					'message' => __( 'The email address you have provided is empty. Please enter a valid email address to continue.', 'ubc-h5p-addon-content-ownership-transfer' ),
 				)
 			);
 		}
@@ -111,7 +122,7 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'message' => $email . ' is not attached to a user on this platform. No changes made.',
+					'message' => $email . __( ' is not attached to a user on this platform. No changes made.', 'ubc-h5p-addon-content-ownership-transfer' ),
 				)
 			);
 		}
@@ -122,7 +133,7 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'message' => $email . ' is already the author of this H5P content. No changes made.',
+					'message' => $email . __( ' is already the author of this H5P content. No changes made.', 'ubc-h5p-addon-content-ownership-transfer' ),
 				)
 			);
 		}
@@ -132,7 +143,7 @@ class ContentOwnershipTransfer {
 		wp_send_json(
 			array(
 				'valid'   => true,
-				'message' => $email . ' is now the author of this H5P content.',
+				'message' => $email . __( ' is now the author of this H5P content.', 'ubc-h5p-addon-content-ownership-transfer' ),
 			)
 		);
 	}//end verify_new_owner()

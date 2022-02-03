@@ -1,6 +1,6 @@
 <?php
 /**
- * UBC H5P Addon - Content Ownership Transfer
+ * UBC H5P Addon - Content Author Transfer
  *
  * @package     UBC H5P
  * @author      Kelvin Xu
@@ -13,9 +13,10 @@
  * Description: Allowed users with certain capability to transfer the ownership of h5p content to another user.
  * Version:     1.0.5
  * Author:      Kelvin Xu
- * Text Domain: ubc-h5p-ownership-transfer
+ * Text Domain: ubc-h5p-addon-content-ownership-transfer
  * License:     GPL v2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Domain Path: /languages
  */
 
 namespace UBC\H5P\OwnershipTransfer;
