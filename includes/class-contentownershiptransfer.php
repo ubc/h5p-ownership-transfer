@@ -111,7 +111,7 @@ class ContentOwnershipTransfer {
 			wp_send_json(
 				array(
 					'valid'   => false,
-					'message' => $email . 'is not attached to a user on this platform. No changes made.',
+					'message' => $email . ' is not attached to a user on this platform. No changes made.',
 				)
 			);
 		}

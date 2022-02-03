@@ -5,6 +5,7 @@ export default () => {
     const [valid, setValid] = useState(null);
     const [message, setMessage] = useState('');
     const [currentAuthorEmail, setCurrentAuthorEmail] = useState('');
+    const [shouldButtonDisabled, setShouldButtonDisabled] = useState(false);
 
     useEffect(() => {
         getCurrentContentAuthorEmail();
@@ -16,6 +17,8 @@ export default () => {
     }
 
     const transferOwnership = async () => {
+        setShouldButtonDisabled( true );
+
         let formData = new FormData();
 
         const params = new URLSearchParams(window.location.search)
@@ -39,10 +42,12 @@ export default () => {
         setValid( response.valid );
         setMessage( response.message ? response.message : '' );
 
-        getCurrentContentAuthorEmail();
+        await getCurrentContentAuthorEmail();
+
+        setShouldButtonDisabled( false );
     }
 
-    const getCurrentContentAuthorEmail = async() => {
+    const getCurrentContentAuthorEmail = async () => {
         let formData = new FormData();
         const params = new URLSearchParams(window.location.search)
 
@@ -87,6 +92,7 @@ export default () => {
             <button
                 type="submit"
                 className="button"
+                disabled={ shouldButtonDisabled }
                 onClick={(e) => {
                     clearMessage();
                 }}
